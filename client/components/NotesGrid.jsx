@@ -24,11 +24,6 @@ class NotesGrid extends Component {
 				gutter: 10,
 				isFitWith: true,
 			};
-
-			const packeryOptions = {
-				itemSelector: '.Note',
-    			transitionDuration: 0
-			};
 		
 		return (
 			<Masonry
