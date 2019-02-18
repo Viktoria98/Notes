@@ -28,6 +28,7 @@ class App extends Component {
 		this._onChange = this._onChange.bind(this);
 		this.handleNoteAdd = this.handleNoteAdd.bind(this);
 		this.handleNoteDelete = this.handleNoteDelete.bind(this);
+		this.handleNoteUpdate = this.handleNoteUpdate.bind(this);
 	}
 
 	componentWillMount() {
@@ -47,7 +48,13 @@ class App extends Component {
 	}
 
 	handleNoteDelete(note) {
+		console.log(note);
 		NotesActions.deleteNote(note.id);
+	}
+
+	handleNoteUpdate(note) {
+		console.log(note);
+		NotesActions.updateNote(note);
 	}
 
 	render() {
@@ -55,7 +62,7 @@ class App extends Component {
 			<div className = 'App'>
 				<h2 className='App__header'>NotesApp</h2>
 				<NoteEditor onNoteAdd={this.handleNoteAdd} />
-				<NotesGrid notes={this.state.notes} onNoteDelete={this.handleNoteDelete} />
+				<NotesGrid notes={this.state.notes} onNoteDelete={this.handleNoteDelete} onNoteUpdate={this.handleNoteUpdate} />
 			</div>
 		);
 	}

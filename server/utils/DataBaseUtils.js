@@ -23,6 +23,11 @@ export function createNote(data) {
 	return note.save();
 }
 
+export function updateNote(data) {
+	const _id = { '_id': data.id };
+	return Note.updateOne(_id, data); 
+}
+
 export function deleteNote(id) {
 	console.log(id);
 	return Note.findById(id).deleteOne();

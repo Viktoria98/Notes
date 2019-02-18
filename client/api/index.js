@@ -13,5 +13,9 @@ export default {
 
     deleteNote(noteId) {
         return axios.delete(`${apiPrefix}/notes/${noteId}`);
+    },
+
+    updateNote(note) {
+    	return axios.put(`${apiPrefix}/notes/${note.id}`, note);
     }
 }

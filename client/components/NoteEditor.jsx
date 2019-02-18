@@ -39,7 +39,6 @@ class NoteEditor extends Component {
 			color: this.state.color
 		};
 
-		console.log(this.props.onNoteAdd);
 		this.props.onNoteAdd(newNote);
 		this.setState({text: '', title: '', color: '#FFFFFF'});
 	}
