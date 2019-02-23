@@ -4,7 +4,6 @@ import {Component} from "react";
 import Note from './Note.jsx';
 
 import Masonry from 'react-masonry-component';
-import Packery from 'react-packery-component';
 
 import './NotesGrid.less';
 

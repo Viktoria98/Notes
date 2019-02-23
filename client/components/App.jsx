@@ -6,6 +6,13 @@ import NotesStore from '../stores/NotesStore';
 import NoteEditor from './NoteEditor.jsx';
 import NotesGrid from './NotesGrid.jsx';
 
+import io from 'socket.io-client';
+import OAuth from './OAuth.jsx';
+import { API_URL } from './config';
+const socket = io(API_URL);
+const providers = ['twitter', 'google', 'facebook', 'github'];
+
+
 import './App.less';
 
 function getStateFromFlux() {
@@ -60,6 +67,19 @@ class App extends Component {
 	render() {
 		return (
 			<div className = 'App'>
+
+				<div className={'wrapper'}>
+       				<div className={'container'}>
+         				{providers.map(provider => 
+            				<OAuth 
+              				provider={provider}
+             				key={provider}
+              				socket={socket}
+            				/>
+          				)}
+       				</div>
+      			</div>
+
 				<h2 className='App__header'>NotesApp</h2>
 				<NoteEditor onNoteAdd={this.handleNoteAdd} />
 				<NotesGrid notes={this.state.notes} onNoteDelete={this.handleNoteDelete} onNoteUpdate={this.handleNoteUpdate} />
