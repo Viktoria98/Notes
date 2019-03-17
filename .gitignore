@@ -1,2 +1,10 @@
 .DS_Store
 node_modules/
+certs/rootCA.key
+certs/rootCA.pem
+certs/rootCA.srl
+certs/server.crt
+certs/server.csr
+certs/server.csr.cnf
+certs/server.key
+certs/v3.ext
