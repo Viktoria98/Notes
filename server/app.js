@@ -1,49 +1,33 @@
-require('dotenv').config();
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-
-const path = require('path')
-const fs = require('fs')
-const https = require('https')
-const passport = require('passport')
-const session = require('express-session')
-const socketio = require('socket.io')
-const authRouter = require('./lib/auth.router')
-const passportInit = require('./lib/passport.init')
-const { SESSION_SECRET, CLIENT_ORIGIN } = require('./config')
+const https = require('https');
+const http = require('http');
+const fs = require('fs');
+const path = require('path');
+let server;
 
 import {serverPort} from '../etc/config.json';
 
 import * as db from './utils/DataBaseUtils.js';
 
-const app = express();
-
-const certOptions = {
-  
+if (process.env.NODE_ENV === 'production') {
+  server = http.createServer(app)
+}
+else {
+  const certOptions = {
+    key: fs.readFileSync(path.resolve('certs/server.key')),
+    cert: fs.readFileSync(path.resolve('certs/server.crt'))
+  }
+  server = https.createServer(certOptions, app)
 }
 
-const server = https.createServer(certOptions, app);
+const app = express();
 
 db.setUpConnection();
 
-app.use(express.json());
-app.use(passport.initialize());
-passportInit();
-
+app.use(bodyParser.json());
 app.use(cors({origin: '*' }) );
-
-app.use(session({ 
-  secret: process.env.SESSION_SECRET, 
-  resave: true, 
-  saveUninitialized: true 
-}));
-
-const io = socketio(server);
-
-app.set('io', io);
-
-app.use('/', authRouter);
 
 app.get('/notes', (req, res) => {
 	db.listNotes().then(data => res.send(data));
@@ -63,6 +47,6 @@ app.delete('/notes/:id', (req, res) => {
 	db.deleteNote(req.params.id).then(data => res.send(data));
 });
 
-server.listen(serverPort, function() {
+server = app.listen(serverPort, function() {
 	console.log(`Server is up and running on port ${serverPort}`);
 });
